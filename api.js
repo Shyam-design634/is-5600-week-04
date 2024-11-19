@@ -16,28 +16,51 @@ function handleRoot(req, res) {
  * @param {object} res
  */
 async function listProducts(req, res) {
-    // Extract the limit and offset query parameters from the request
-    const { offset = 0, limit = 25 } = req.query;
+    const { offset = 0, limit = 25, tag } = req.query;
   
     try {
-         // Get all products first to count the total
-      const allProducts = await Products.list({}); 
-      // Pass the limit and offset to the Products service
       const products = await Products.list({
         offset: Number(offset),
-        limit: Number(limit)
+        limit: Number(limit),
+        tag,
       });
   
-      // Send the filtered products and total number of products
+      // Get total count after filtering
+      const total = tag
+        ? (await Products.list({ tag })).length
+        : (await Products.list({})).length;
+  
       res.json({
         products,
-        total: allProducts.length // Optionally, you can include the total number of products in the response
+        total,
       });
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
   }
-
+  
+  /**
+   * Get a single product
+   * @param {object} req
+   * @param {object} res
+   */
+  async function getProduct(req, res, next) {
+    const { id } = req.params;
+  
+    try {
+      const product = await Products.get(id);
+  
+      if (!product) {
+        // If no product found, pass control to the next middleware (e.g., a 404 handler)
+        return next();
+      }
+  
+      res.json(product);
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  }
+  
 module.exports = {
   handleRoot,
   listProducts,

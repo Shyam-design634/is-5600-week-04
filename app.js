@@ -21,4 +21,6 @@ app.get('/products', api.listProducts);
 app.get('/products/:id', api.getProduct);
 
 // Start the server
-app.listen(port, () => console.log(`Server listening on port ${port}`));
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
+});

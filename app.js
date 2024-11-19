@@ -20,7 +20,7 @@ app.get('/', api.handleRoot);
 app.get('/products', api.listProducts);
 app.get('/products/:id', api.getProduct);
 app.post('/products', api.createProduct);
-
+app.delete('/products/:id', api.deleteProduct);
 
 // 404 middleware
 app.use(middleware.notFound);
@@ -33,6 +33,9 @@ app.post('/products', api.createProduct);
 
 // New DELETE route
 app.delete('/products/:id', api.deleteProduct); // Register the new delete method
+
+// New PUT route to update a product
+app.put('/products/:id', api.updateProduct); // Register the update method
 
 // Start the server
 app.listen(port, () => {

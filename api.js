@@ -45,11 +45,20 @@ async function getProduct(req, res, next) {
   
     res.json(product);
   }
+
+  /**
+ * Create a new product
+ */
+async function createProduct(req, res) {
+    console.log('request body:', req.body); // Log the request body
+    res.json(req.body); // Echo the request body as the response for testing
+  }
   
 
 module.exports = autoCatch({
     handleRoot,
     listProducts,
     getProduct,
+    createProduct, // Add the new method here
   });
   

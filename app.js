@@ -20,6 +20,12 @@ app.get('/products', api.listProducts);
 // New route to fetch a single product by ID
 app.get('/products/:id', api.getProduct);
 
+// 404 middleware
+app.use(middleware.notFound);
+
+// Error-handling middleware
+app.use(middleware.handleError);
+
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

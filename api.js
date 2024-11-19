@@ -1,5 +1,5 @@
 const path = require('path');
-const fs = require('fs').promises; // Ensure fs is imported here for reading files
+const Products = require('./products');  // Import the Products service
 
 /**
  * Handle the root route
@@ -15,20 +15,15 @@ function handleRoot(req, res) {
  * @param {object} req
  * @param {object} res
  */
-async function listProducts(req, res) {
-  // Add CORS headers
-  res.setHeader('Access-Control-Allow-Origin', '*');
-
-  // Read the products file
-  const productsFile = path.join(__dirname, 'data/full-products.json');
-
-  try {
-    const data = await fs.readFile(productsFile); // Read the JSON file asynchronously
-    res.json(JSON.parse(data)); // Parse and send the JSON response
-  } catch (err) {
-    res.status(500).json({ error: err.message }); // Send error response
+async function listProducts (req, res) {
+    try {
+      // Use the Products service to get the list of products
+      const products = await Products.list();
+      res.json(products);  // Send the products as the response
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
   }
-}
 
 module.exports = {
   handleRoot,

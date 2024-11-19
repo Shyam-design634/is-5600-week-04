@@ -1,9 +1,17 @@
 /**
  * Set the CORS headers on the response object
+ * @param {object} err
  * @param {object} req
  * @param {object} res
  * @param {function} next
  */
+function handleError(err, req, res, next) {
+    console.error(err); // Log the error
+    if (res.headersSent) {
+      return next(err); // Delegate to the default error handler if headers are already sent
+    }
+    res.status(500).json({ error: "Internal Error Occurred" });
+  }
 function cors(req, res, next) {
     const origin = req.headers.origin;
   
@@ -19,8 +27,20 @@ function cors(req, res, next) {
   
     next();
   }
+
+  /**
+ * Send a 404 response if no route is found
+ * @param {object} req
+ * @param {object} res
+ */
+function notFound(req, res) {
+    res.status(404).json({ error: "Not Found" });
+  }
   
   module.exports = {
     cors,
+    handleError,
+    notFound,
   };
+
   

@@ -19,6 +19,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', api.handleRoot);
 app.get('/products', api.listProducts);
 app.get('/products/:id', api.getProduct);
+app.post('/products', api.createProduct);
 
 
 // 404 middleware
@@ -29,6 +30,9 @@ app.use(middleware.handleError);
 
 // New route for creating a product
 app.post('/products', api.createProduct);
+
+// New DELETE route
+app.delete('/products/:id', api.deleteProduct); // Register the new delete method
 
 // Start the server
 app.listen(port, () => {

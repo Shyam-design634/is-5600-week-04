@@ -60,8 +60,9 @@ async function listProducts(req, res) {
       res.status(500).json({ error: err.message });
     }
   }
-  
+
 module.exports = {
   handleRoot,
   listProducts,
+  getProduct,
 };

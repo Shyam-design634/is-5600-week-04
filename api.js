@@ -33,6 +33,7 @@ async function listProducts(req, res) {
  * Get a single product
  * @param {object} req
  * @param {object} res
+ * @param {function} next
  */
 async function getProduct(req, res, next) {
     const { id } = req.params;

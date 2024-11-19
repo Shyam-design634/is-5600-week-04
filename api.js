@@ -20,6 +20,8 @@ async function listProducts(req, res) {
     const { offset = 0, limit = 25 } = req.query;
   
     try {
+         // Get all products first to count the total
+      const allProducts = await Products.list({}); 
       // Pass the limit and offset to the Products service
       const products = await Products.list({
         offset: Number(offset),
@@ -29,7 +31,7 @@ async function listProducts(req, res) {
       // Send the filtered products and total number of products
       res.json({
         products,
-        total: products.length // Optionally, you can include the total number of products in the response
+        total: allProducts.length // Optionally, you can include the total number of products in the response
       });
     } catch (err) {
       res.status(500).json({ error: err.message });

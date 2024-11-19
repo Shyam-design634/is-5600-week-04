@@ -13,5 +13,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', api.handleRoot);
 app.get('/products', api.listProducts);
 
+// New route to fetch a single product by ID
+app.get('/products/:id', api.getProduct);
+
 // Start the server
 app.listen(port, () => console.log(`Server listening on port ${port}`));
